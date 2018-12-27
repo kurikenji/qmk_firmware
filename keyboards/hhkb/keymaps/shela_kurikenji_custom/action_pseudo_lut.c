@@ -31,7 +31,7 @@ void action_pseudo_lut(keyrecord_t *record, uint8_t base_keymap_id, const uint16
 
         if (prev_shift) {
             pseudo_keycode = convert_keycode(keymap, keycode, true);
-            dprintf("pressed: %02X, converted: %04X\n", keycode, pseudo_keycode);
+//            dprintf("pressed: %02X, converted: %04X\n", keycode, pseudo_keycode);
             add_shift_bit(keycode);
 
             if (IS_LSFT(pseudo_keycode)) {
@@ -46,7 +46,7 @@ void action_pseudo_lut(keyrecord_t *record, uint8_t base_keymap_id, const uint16
             }
         } else {
             pseudo_keycode = convert_keycode(keymap, keycode, false);
-            dprintf("pressed: %02X, converted: %04X\n", keycode, pseudo_keycode);
+//            dprintf("pressed: %02X, converted: %04X\n", keycode, pseudo_keycode);
 
             if (IS_LSFT(pseudo_keycode)) {
                 add_weak_mods(MOD_BIT(KC_LSFT));
@@ -67,7 +67,7 @@ void action_pseudo_lut(keyrecord_t *record, uint8_t base_keymap_id, const uint16
         } else {
             pseudo_keycode = convert_keycode(keymap, keycode, false);
         }
-        dprintf("released: %02X, converted: %04X\n", keycode, pseudo_keycode);
+//        dprintf("released: %02X, converted: %04X\n", keycode, pseudo_keycode);
 
         if (IS_LSFT(pseudo_keycode)) {
             unregister_code(QK_LSFT ^ pseudo_keycode);
@@ -120,7 +120,6 @@ uint8_t get_shift_bit(uint16_t keycode) {
     if ((keycode >> 3) < SHIFT_BIT_SIZE) {
         return send_key_shift_bit[keycode >> 3] & (1 << (keycode & 7));
     } else {
-        dprintf("get_shift_bit: Can't get shift bit. keycode: %02X\n", keycode);
         return 0;
     }
 }
@@ -128,15 +127,11 @@ uint8_t get_shift_bit(uint16_t keycode) {
 void add_shift_bit(uint16_t keycode) {
     if ((keycode >> 3) < SHIFT_BIT_SIZE) {
         send_key_shift_bit[keycode >> 3] |= (1 << (keycode & 7));
-    } else {
-        dprintf("add_shift_bit: Can't add shift bit. keycode: %02X\n", keycode);
     }
 }
 
 void del_shift_bit(uint16_t keycode) {
     if ((keycode >> 3) < SHIFT_BIT_SIZE) {
         send_key_shift_bit[keycode >> 3] &= ~(1 << (keycode & 7));
-    } else {
-        dprintf("del_shift_bit: Can't delete shift bit. keycode: %02X\n", keycode);
-    }
+    } 
 }
