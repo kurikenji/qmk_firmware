@@ -2,13 +2,10 @@
  * HHKB Pro 2 US Layout for shela
  */
 #include QMK_KEYBOARD_H
-#include "keymap_jis2us.h"
-#include "action_pseudo_lut.h"
 
 enum keymap_layout
 {
     BASE = 0,
-    PSEUDO_US,
     HHKB,
     SPACE_FN,
 };
@@ -33,27 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
                KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT,
                OSM(MOD_LSFT), KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, KC_FN0,
-               KC_LALT, KC_LGUI, KC_FN2, KC_RGUI, KC_RALT),
-
-    /* Layer 1: Pseudo US Layout Layer
-     * ,-----------------------------------------------------------------------------------------.
-     * | Esc | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | BSp |
-     * |-----------------------------------------------------------------------------------------|
-     * |  Tab   | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 |  Fn1   |
-     * |-----------------------------------------------------------------------------------------|
-     * | Control  | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 |   Enter    |
-     * |-----------------------------------------------------------------------------------------|
-     * |    Shift    | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 | Fn1 |  Shift  | Fn0 |
-     * `-----------------------------------------------------------------------------------------'
-     *           |LAlt |  LGui  |               SpaceFN             |  RGui  |RAlt |
-     *           `-----------------------------------------------------------------'
-     */
-    [PSEUDO_US] =
-        LAYOUT(KC_ESC, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_BSPC,
-               KC_TAB, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1,
-               KC_LCTL, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_ENT,
-               KC_LSFT, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_FN1, KC_RSFT, KC_FN0,
-               KC_LALT, KC_LGUI, KC_FN2, KC_RGUI, KC_RALT),
+               KC_LALT, KC_LGUI, KC_FN1, KC_RGUI, KC_RALT),
 
     /* Layer 2: HHKB mode (HHKB Fn)
      * ,-----------------------------------------------------------------------------------------.
@@ -99,20 +76,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * user defined action function
  */
-enum function_id
-{
-    PSEUDO_US_FUNCTION,
-};
-
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
-
-    switch (id)
-    {
-    case PSEUDO_US_FUNCTION:
-        action_pseudo_lut(record, BASE, keymap_jis2us);
-        break;
-    }
 }
 
 /*
@@ -120,9 +85,5 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
  */
 const uint16_t PROGMEM fn_actions[] = {
     [0] = ACTION_LAYER_MOMENTARY(HHKB),
-    [1] = ACTION_FUNCTION(PSEUDO_US_FUNCTION),
-    [2] = ACTION_LAYER_TAP_KEY(SPACE_FN, KC_SPACE),
-    [3] = ACTION_MODS_TAP_KEY(MOD_LALT, KC_MHEN),
-    [4] = ACTION_MODS_TAP_KEY(MOD_RALT, KC_KANA),
-    [5] = ACTION_DEFAULT_LAYER_SET(BASE),
+    [1] = ACTION_LAYER_TAP_KEY(SPACE_FN, KC_SPACE),
 };
